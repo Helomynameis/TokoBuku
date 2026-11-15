@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katalog Buku Novel | Angkasa Biru</title>
+
+  <style>
+    :root {
+      --gold: #c5a76a;
+      --gold-light: #e4d3a7;
+      --gold-dark: #92743b;
+      --black: #111111;
+      --white: #ffffff;
+      --cream: #f7f6f2;
+      --gray: #77746c;
+      --border: #e7e2d8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--black);
+      padding: 28px 20px 40px;
+    }
+
+    /* HEADER */
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto 35px;
+      padding: 36px 22px;
+      text-align: center;
+      background: linear-gradient(135deg, #111, #30291d);
+      border: 1px solid var(--gold);
+      border-radius: 14px;
+    }
+
+    .eyebrow {
+      color: var(--gold-light);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 13px;
+    }
+
+    .hero h1 {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(25px, 4vw, 36px);
+      font-weight: normal;
+    }
+
+    .gold-line {
+      width: 65px;
+      height: 2px;
+      background: var(--gold);
+      margin: 18px auto;
+    }
+
+    .hero p {
+      color: #e3ded4;
+      font-size: 13px;
+      line-height: 1.8;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    /* KATALOG */
+    .section {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      color: var(--gold-dark);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .section-header h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: normal;
+      margin-bottom: 8px;
+    }
+
+    .section-header p {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .book-count {
+      color: var(--gray);
+      font-size: 11px;
+      white-space: nowrap;
+      padding-bottom: 4px;
+    }
+
+    .book-count strong {
+      color: var(--gold-dark);
+    }
+
+    /* SEARCH */
+    .search-wrap {
+      margin: 0 auto 25px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 15px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: .2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px #c5a76a20;
+    }
+
+    .search-icon {
+      color: var(--gold-dark);
+      font-size: 21px;
+    }
+
+    .search-box input {
+      flex: 1;
+      min-width: 0;
+      padding: 15px 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--black);
+      font-size: 13px;
+    }
+
+    .search-box input::placeholder {
+      color: #aaa69d;
+    }
+
+    .clear-btn {
+      display: none;
+      border: none;
+      background: transparent;
+      color: var(--gold-dark);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 8px;
+    }
+
+    .search-hint {
+      margin-top: 8px;
+      color: var(--gray);
+      font-size: 10px;
+    }
+
+    /* GRID BUKU */
+    .container-buku {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, 225px), 1fr)
+      );
+      gap: 24px;
+      margin: auto;
+    }
+
+    /* KARTU BUKU */
+    .card-buku {
+      min-width: 0;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 5px 18px rgba(17, 17, 17, 0.05);
+      transition: transform .3s ease,
+                  box-shadow .3s ease,
+                  border-color .3s ease;
+    }
+
+    .card-buku:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold);
+      box-shadow: 0 12px 28px rgba(17, 17, 17, 0.12);
+    }
+
+    .img-container {
+      width: 100%;
+      height: 265px;
+      background: #efede7;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 17px;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform .4s ease;
+    }
+
+    .card-buku:hover .img-container img {
+      transform: scale(1.04);
+    }
+
+    .category {
+      color: var(--gold-dark);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .title-buku {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--black);
+      font-size: 19px;
+      font-weight: normal;
+      line-height: 1.4;
+      margin-bottom: 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .description {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-bottom: 15px;
+      flex-grow: 1;
+    }
+
+    .price {
+      color: var(--gold-dark);
+      font-size: 17px;
+      font-weight: 750;
+      margin-bottom: 14px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: auto;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      border-radius: 6px;
+      padding: 11px 9px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .25s ease;
+    }
+
+    .buy-btn {
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+    }
+
+    .buy-btn:hover {
+      background: var(--gold-dark);
+      border-color: var(--gold-dark);
+    }
+
+    .add-cart-btn {
+      background: var(--white);
+      color: var(--gold-dark);
+      border: 1px solid var(--gold);
+    }
+
+    .add-cart-btn:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* BUKU TIDAK DITEMUKAN */
+    .empty-state {
+      display: none;
+      margin: auto;
+      padding: 45px 20px;
+      background: var(--white);
+      border: 1px dashed var(--gold);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: normal;
+      margin-bottom: 9px;
+    }
+
+    .empty-state p {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.8;
+      margin-bottom: 17px;
+    }
+
+    .reset-search {
+      padding: 11px 16px;
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .reset-search:hover {
+      background: var(--gold-dark);
+    }
+
+    /* FOOTER */
+    .footer-note {
+      max-width: 1100px;
+      margin: 35px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--gray);
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 650px) {
+      body {
+        padding: 16px 12px 28px;
+      }
+
+      .hero {
+        padding: 28px 16px;
+      }
+
+      .eyebrow {
+        letter-spacing: 2px;
+      }
+
+      .container-buku {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 15px;
+      }
+
+      .card-buku {
+        padding: 10px;
+      }
+
+      .img-container {
+        height: 210px;
+      }
+
+      .title-buku {
+        font-size: 16px;
+      }
+
+      .section-header {
+        align-items: start;
+      }
+
+      .section-header h2 {
+        font-size: 22px;
+      }
+
+      .book-count {
+        white-space: normal;
+        text-align: right;
+      }
+
+      .btn {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .container-buku {
+        grid-template-columns: 1fr;
+      }
+
+      .img-container {
+        height: 265px;
+      }
+
+      .section-header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="hero">
+    <div class="eyebrow">ANGKASA BIRU TOKO · KOLEKSI NOVEL</div>
+    <h1>Temukan Cerita Favoritmu</h1>
+    <div class="gold-line"></div>
+    <p>
+      Setiap buku menyimpan cerita, setiap halaman membawa pengalaman.
+      Jelajahi pilihan bacaan yang siap menemani perjalananmu.
+    </p>
+  </header>
+
+  <main class="section">
+
+    <!-- JUDUL KATALOG -->
+    <div class="section-header">
+      <div>
+        <div class="section-label">JELAJAHI KOLEKSI</div>
+        <h2>Katalog Buku Novel</h2>
+        <p>Temukan novel favoritmu berdasarkan nama atau judul buku.</p>
+      </div>
+
+      <div class="book-count">
+        Menampilkan <strong id="visibleCount">6</strong> buku
+      </div>
+    </div>
+
+    <!-- PENCARIAN -->
+    <div class="search-wrap">
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Cari nama buku..."
+          aria-label="Cari buku berdasarkan nama"
+          autocomplete="off"
+        >
+        <button class="clear-btn" id="clearBtn" type="button">
+          Hapus ✕
+        </button>
+      </div>
+
+      <p class="search-hint">
+        Ketik nama buku untuk menyaring katalog secara otomatis.
+      </p>
+    </div>
+
+    <!-- DAFTAR BUKU -->
+    <div class="container-buku" id="bookGrid">
+
+      <!-- BUKU 1 -->
+      <article class="card-buku" data-title="Senja Hujan dan Cerita">
+        <div class="img-container">
+          <img src="GAMBAR/Novel_SHC.jpg"
+               alt="Sampul Senja, Hujan, dan Cerita">
+        </div>
+        <div class="category">Novel · Fiksi</div>
+        <h2 class="title-buku">Senja, Hujan, & Cerita</h2>
+        <p class="description">
+          Sebuah pilihan bacaan untuk menikmati kisah dan
+          perjalanan cerita dalam setiap halaman.
+        </p>
+        <div class="price">Rp 65.000</div>
+
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Senja%2C%20Hujan%2C%20%26%20Cerita&amp;price=65000"
+             target="konten">Beli Sekarang</a>
+
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Senja, Hujan, & Cerita', 65000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <!-- BUKU 2 -->
+      <article class="card-buku" data-title="Yang Katanya Cemara">
+        <div class="img-container">
+          <img src="GAMBAR/Novel_YKC.jpg"
+               alt="Sampul Yang Katanya Cemara">
+        </div>
+        <div class="category">Novel · Fiksi</div>
+        <h2 class="title-buku">Yang Katanya Cemara</h2>
+        <p class="description">
+          Gambar diambil dari Gramedia: https://www.gramedia.com/products/yang-katanya-cemara.
+        </p>
+        <div class="price">Rp 79.000</div>
+
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Yang%20Katanya%20Cemara&amp;price=79000"
+             target="konten">Beli Sekarang</a>
+
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Yang Katanya Cemara', 79000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <!-- BUKU 3 -->
+      <article class="card-buku" data-title="Novel Hujan">
+        <div class="img-container">
+          <img src="GAMBAR/Novel_Hujan.jpg"
+               alt="Sampul Novel Hujan">
+        </div>
+        <div class="category">Novel · Fiksi</div>
+        <h2 class="title-buku">Novel Hujan</h2>
+        <p class="description">
+          Gambar diambil dari Good Reads: https://www.goodreads.com/book/show/28446637-hujan
+        </p>
+        <div class="price">Rp 60.000</div>
+
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Novel%20Hujan&amp;price=60000"
+             target="konten">Beli Sekarang</a>
+
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Novel Hujan', 60000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <!-- BUKU 4 -->
+      <article class="card-buku" data-title="Cinta Itu Luka">
+        <div class="img-container">
+          <img src="GAMBAR/CIL.jpg"
+               alt="Sampul Buku Motivasi SAW">
+        </div>
+        <div class="category">Novel</div>
+        <h2 class="title-buku">Cantik itu Luka</h2>
+        <p class="description">
+          Gambar dari Gramedia Web: https://www.gramedia.com/products/cantik-itu-luka-hc-limited-edition
+        </p>
+        <div class="price">Rp 65.000</div>
+
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Buku%20Motivasi%20SAW&amp;price=65000"
+             target="konten">Beli Sekarang</a>
+
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Buku Motivasi SAW', 65000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <!-- BUKU 5 -->
+      <article class="card-buku" data-title="Aku Kau dan Masa Depan">
+        <div class="img-container">
+          <img src="GAMBAR/TLoT.jpg"
+               alt="Sampul Aku, Kau, dan Masa Depan">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">The Lantern of Time</h2>
+        <p class="description">
+          Gambar dari Pinterest, bookoverzone: https://www.pinterest.com/pin/merino-fiction-book-cover--807340670717917736/
+        </p>
+        <div class="price">Rp 45.000</div>
+
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Aku%2C%20Kau%2C%20%26%20Masa%20Depan&amp;price=45000"
+             target="konten">Beli Sekarang</a>
+
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Aku, Kau, & Masa Depan', 45000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+    <!-- PESAN JIKA BUKU TIDAK DITEMUKAN -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">📚</div>
+      <h3>Buku tidak ditemukan</h3>
+      <p>
+        Coba gunakan kata kunci lain untuk menemukan
+        buku yang kamu cari.
+      </p>
+      <button class="reset-search" id="resetBtn" type="button">
+        Tampilkan Semua Buku
+      </button>
+    </div>
+
+  </main>
+
+  <footer class="footer-note">
+    TOKO ANGKASA BIRU · READ · DISCOVER · GROW
+  </footer>
+
+  <script>
+    /* ================= PENCARIAN BUKU ================= */
+
+    const searchInput = document.getElementById("searchInput");
+    const bookCards = document.querySelectorAll(".card-buku");
+    const visibleCount = document.getElementById("visibleCount");
+    const emptyState = document.getElementById("emptyState");
+    const clearBtn = document.getElementById("clearBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const bookGrid = document.getElementById("bookGrid");
+
+    function cariBuku() {
+      const keyword = searchInput.value.trim().toLocaleLowerCase("id");
+      let jumlahTampil = 0;
+
+      bookCards.forEach(card => {
+        const namaBuku = card.dataset.title.toLocaleLowerCase("id");
+        const cocok = namaBuku.includes(keyword);
+
+        card.style.display = cocok ? "flex" : "none";
+
+        if (cocok) jumlahTampil++;
+      });
+
+      visibleCount.textContent = jumlahTampil;
+      emptyState.style.display = jumlahTampil === 0 ? "block" : "none";
+      bookGrid.style.display = jumlahTampil === 0 ? "none" : "grid";
+      clearBtn.style.display = keyword ? "inline-block" : "none";
+    }
+
+    searchInput.addEventListener("input", cariBuku);
+
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      cariBuku();
+      searchInput.focus();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      cariBuku();
+      searchInput.focus();
+    });
+
+
+    /* ================= KERANJANG ================= */
+
+    function tambahKeranjang(judul, harga) {
+      const key = "pustakaUtamaCart";
+      let cart = [];
+
+      try {
+        const tersimpan = localStorage.getItem(key);
+        cart = tersimpan ? JSON.parse(tersimpan) : [];
+
+        if (!Array.isArray(cart)) cart = [];
+      } catch (error) {
+        cart = [];
+      }
+
+      const item = cart.find(buku => buku.title === judul);
+
+      if (item) {
+        item.qty = (Number(item.qty) || 0) + 1;
+        item.price = Number(item.price) || harga;
+      } else {
+        cart.push({
+          title: judul,
+          price: harga,
+          qty: 1
+        });
+      }
+
+      localStorage.setItem(key, JSON.stringify(cart));
+
+      // Jika halaman berada di dalam iframe "konten",
+      // pindahkan iframe ke halaman Keranjang.html.
+      if (window.parent !== window) {
+        const iframe = window.parent.document.querySelector(
+          'iframe[name="konten"]'
+        );
+
+        if (iframe) {
+          iframe.src = "Keranjang.html";
+          return;
+        }
+      }
+
+      // Jika dibuka langsung, pindah ke halaman keranjang.
+      window.location.href = "Keranjang.html";
+    }
+  </script>
+
+</body>
+</html>

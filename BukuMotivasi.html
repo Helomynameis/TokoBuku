@@ -1,0 +1,860 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katalog Buku Motivasi | Angkasa Biru</title>
+
+  <style>
+    :root {
+      --gold: #c5a76a;
+      --gold-light: #e4d3a7;
+      --gold-dark: #92743b;
+      --black: #111111;
+      --white: #ffffff;
+      --cream: #f7f6f2;
+      --gray: #77746c;
+      --border: #e7e2d8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--black);
+      padding: 28px 20px 40px;
+    }
+
+    /* HEADER */
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto 35px;
+      padding: 36px 22px;
+      text-align: center;
+      background: linear-gradient(135deg, #111, #30291d);
+      border: 1px solid var(--gold);
+      border-radius: 14px;
+    }
+
+    .eyebrow {
+      color: var(--gold-light);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 13px;
+    }
+
+    .hero h1 {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(25px, 4vw, 36px);
+      font-weight: normal;
+    }
+
+    .gold-line {
+      width: 65px;
+      height: 2px;
+      background: var(--gold);
+      margin: 18px auto;
+    }
+
+    .hero p {
+      color: #e3ded4;
+      font-size: 13px;
+      line-height: 1.8;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    /* KATALOG */
+    .section {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .section-label {
+      color: var(--gold-dark);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .section-header h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: normal;
+      margin-bottom: 8px;
+    }
+
+    .section-header p {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .book-count {
+      color: var(--gray);
+      font-size: 11px;
+      white-space: nowrap;
+      padding-bottom: 4px;
+    }
+
+    .book-count strong {
+      color: var(--gold-dark);
+    }
+
+    /* SEARCH */
+    .search-wrap {
+      margin: 0 auto 25px;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 15px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: .2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px #c5a76a20;
+    }
+
+    .search-icon {
+      color: var(--gold-dark);
+      font-size: 21px;
+    }
+
+    .search-box input {
+      flex: 1;
+      min-width: 0;
+      padding: 15px 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--black);
+      font-size: 13px;
+    }
+
+    .search-box input::placeholder {
+      color: #aaa69d;
+    }
+
+    .clear-btn {
+      display: none;
+      border: none;
+      background: transparent;
+      color: var(--gold-dark);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 8px;
+    }
+
+    .search-hint {
+      margin-top: 8px;
+      color: var(--gray);
+      font-size: 10px;
+    }
+
+    /* GRID BUKU */
+    .container-buku {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(min(100%, 225px), 1fr)
+      );
+      gap: 24px;
+      margin: auto;
+    }
+
+    /* KARTU BUKU */
+    .card-buku {
+      min-width: 0;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 5px 18px rgba(17, 17, 17, 0.05);
+      transition: transform .3s ease,
+                  box-shadow .3s ease,
+                  border-color .3s ease;
+    }
+
+    .card-buku:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold);
+      box-shadow: 0 12px 28px rgba(17, 17, 17, 0.12);
+    }
+
+    .img-container {
+      width: 100%;
+      height: 265px;
+      background: #efede7;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 17px;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform .4s ease;
+    }
+
+    .card-buku:hover .img-container img {
+      transform: scale(1.04);
+    }
+
+    .category {
+      color: var(--gold-dark);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .title-buku {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--black);
+      font-size: 19px;
+      font-weight: normal;
+      line-height: 1.4;
+      margin-bottom: 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .description {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-bottom: 15px;
+      flex-grow: 1;
+    }
+
+    .price {
+      color: var(--gold-dark);
+      font-size: 17px;
+      font-weight: 750;
+      margin-bottom: 14px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-top: auto;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      border-radius: 6px;
+      padding: 11px 9px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .25s ease;
+    }
+
+    .buy-btn {
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+    }
+
+    .buy-btn:hover {
+      background: var(--gold-dark);
+      border-color: var(--gold-dark);
+    }
+
+    .add-cart-btn {
+      background: var(--white);
+      color: var(--gold-dark);
+      border: 1px solid var(--gold);
+    }
+
+    .add-cart-btn:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    /* HASIL PENCARIAN KOSONG */
+    .empty-state {
+      display: none;
+      margin: auto;
+      padding: 45px 20px;
+      background: var(--white);
+      border: 1px dashed var(--gold);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: normal;
+      margin-bottom: 9px;
+    }
+
+    .empty-state p {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.8;
+      margin-bottom: 17px;
+    }
+
+    .reset-search {
+      padding: 11px 16px;
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--black);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .reset-search:hover {
+      background: var(--gold-dark);
+    }
+
+    /* FOOTER */
+    .footer-note {
+      max-width: 1100px;
+      margin: 35px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--gray);
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 650px) {
+      body {
+        padding: 16px 12px 28px;
+      }
+
+      .hero {
+        padding: 28px 16px;
+      }
+
+      .eyebrow {
+        letter-spacing: 2px;
+      }
+
+      .container-buku {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 15px;
+      }
+
+      .card-buku {
+        padding: 10px;
+      }
+
+      .img-container {
+        height: 210px;
+      }
+
+      .title-buku {
+        font-size: 16px;
+      }
+
+      .section-header {
+        align-items: start;
+      }
+
+      .section-header h2 {
+        font-size: 22px;
+      }
+
+      .book-count {
+        white-space: normal;
+        text-align: right;
+      }
+
+      .btn {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .container-buku {
+        grid-template-columns: 1fr;
+      }
+
+      .img-container {
+        height: 265px;
+      }
+
+      .section-header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="hero">
+    <div class="eyebrow">ANGKASA BIRU TOKO · KOLEKSI MOTIVASI</div>
+    <h1>Temukan Inspirasi dalam Setiap Halaman</h1>
+    <div class="gold-line"></div>
+    <p>
+      Setiap perjalanan dimulai dari sebuah langkah kecil.
+      Temukan bacaan yang dapat memperluas perspektif,
+      menambah wawasan, dan menemani proses pengembangan dirimu.
+    </p>
+  </header>
+
+  <main class="section">
+
+    <!-- JUDUL KATALOG -->
+    <div class="section-header">
+      <div>
+        <div class="section-label">JELAJAHI KOLEKSI</div>
+        <h2>Katalog Buku Motivasi</h2>
+        <p>Temukan buku pilihan berdasarkan nama atau judulnya.</p>
+      </div>
+
+      <div class="book-count">
+        Menampilkan <strong id="visibleCount">12</strong> buku
+      </div>
+    </div>
+
+    <!-- PENCARIAN -->
+    <div class="search-wrap">
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Cari nama buku..."
+          aria-label="Cari buku berdasarkan nama"
+          autocomplete="off"
+        >
+        <button class="clear-btn" id="clearBtn" type="button">
+          Hapus ✕
+        </button>
+      </div>
+
+      <p class="search-hint">
+        ✦ Ketik nama buku untuk menyaring katalog secara otomatis.
+      </p>
+    </div>
+
+    <!-- DAFTAR BUKU -->
+    <div class="container-buku" id="bookGrid">
+
+      <article class="card-buku" data-title="Motivasi BA">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_BA.jpg" alt="Sampul Motivasi BA">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Sebuah Seni untuk Bersikap Bodo Amat</h2>
+        <p class="description">
+          Bacaan inspiratif untuk memperkaya perspektif
+          dan menemani perjalanan pengembangan diri.
+        </p>
+        <div class="price">Rp 65.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20BA&amp;price=65000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi BA', 65000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="RBTDKA">
+        <div class="img-container">
+          <img src="GAMBAR/RBTDKA.jpg" alt="Sampul RBTDKA">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Rahasia Bersikap Tenang dalam Kondisi Apapun</h2>
+        <p class="description">
+          Tambahkan bacaan menarik ke dalam koleksi
+          dan temukan sudut pandang baru.
+        </p>
+        <div class="price">Rp 79.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=RBTDKA&amp;price=79000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('RBTDKA', 79000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi Boleh Kalah Asal Jangan Menyerah">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_BKAJM.jpg" alt="Sampul Motivasi BKAJM">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Motivasi BKAJM</h2>
+        <p class="description">
+          Bacaan pilihan untuk menemani waktu belajar,
+          refleksi, dan pengembangan wawasan.
+        </p>
+        <div class="price">Rp 60.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20BKAJM&amp;price=60000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi BKAJM', 60000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi SAW">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_SAW.jpg" alt="Sampul Motivasi SAW">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Semua Ada Waktunya</h2>
+        <p class="description">
+          Jelajahi ide dan inspirasi dari buku pilihan
+          untuk menemani perjalanan hidupmu.
+        </p>
+        <div class="price">Rp 65.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20SAW&amp;price=65000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi SAW', 65000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi AKPdM">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_AKPdM.jpg" alt="Sampul Motivasi AKPdM">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Antara Kamu, Perjuangan, dan Motivasi</h2>
+        <p class="description">
+          Lengkapi rak bukumu dengan bacaan menarik
+          untuk menemani proses bertumbuh.
+        </p>
+        <div class="price">Rp 45.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20AKPdM&amp;price=45000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi AKPdM', 45000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi RM">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_RM.jpg" alt="Sampul Motivasi RM">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Rahasia Melepaskan</h2>
+        <p class="description">
+          Temukan bacaan yang menarik untuk menemani
+          waktu refleksi dan pengembangan diri.
+        </p>
+        <div class="price">Rp 60.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20RM&amp;price=60000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi RM', 60000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi BdTH">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_BdTH.jpg" alt="Sampul Motivasi BdTH">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Berlari di Tengah Hujan</h2>
+        <p class="description">
+          Tambahkan wawasan baru melalui pengalaman
+          membaca buku pilihan.
+        </p>
+        <div class="price">Rp 65.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20BdTH&amp;price=65000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi BdTH', 65000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi SKIB">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_SKIB.jpg" alt="Sampul Motivasi SKIB">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Saat Engkau Ingin Berubah</h2>
+        <p class="description">
+          Pilihan bacaan untuk menemani perjalanan
+          pengembangan diri dan wawasan.
+        </p>
+        <div class="price">Rp 45.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20SKIB&amp;price=45000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi SKIB', 45000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi IBTM">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_IBTM.jpg" alt="Sampul Motivasi IBTM">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Ini Bukan Tentang Motivasi</h2>
+        <p class="description">
+          Temukan inspirasi dan sudut pandang baru
+          melalui koleksi bacaan ini.
+        </p>
+        <div class="price">Rp 60.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20IBTM&amp;price=60000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi IBTM', 60000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi BA">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_BA.jpg" alt="Sampul Motivasi BA">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Motivasi BA</h2>
+        <p class="description">
+          Bacaan inspiratif untuk memperkaya perspektif
+          dan menemani perjalanan pengembangan diri.
+        </p>
+        <div class="price">Rp 65.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20BA&amp;price=65000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi BA', 65000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi AKPdM">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_AKPdM.jpg" alt="Sampul Motivasi AKPdM">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Motivasi AKPdM</h2>
+        <p class="description">
+          Lengkapi koleksi bacaanmu dengan buku
+          pilihan untuk menemani proses bertumbuh.
+        </p>
+        <div class="price">Rp 45.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20AKPdM&amp;price=45000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi AKPdM', 45000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+      <article class="card-buku" data-title="Motivasi BA">
+        <div class="img-container">
+          <img src="GAMBAR/Motivasi_BA.jpg" alt="Sampul Motivasi BA">
+        </div>
+        <div class="category">Buku Motivasi</div>
+        <h2 class="title-buku">Motivasi BA</h2>
+        <p class="description">
+          Bacaan inspiratif untuk memperkaya perspektif
+          dan menemani perjalanan pengembangan diri.
+        </p>
+        <div class="price">Rp 60.000</div>
+        <div class="actions">
+          <a class="btn buy-btn"
+             href="Pembayaran.html?title=Motivasi%20BA&amp;price=60000"
+             target="konten">Beli Sekarang</a>
+          <button class="btn add-cart-btn" type="button"
+                  onclick="tambahKeranjang('Motivasi BA', 60000)">
+            + Tambah ke Keranjang
+          </button>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- BUKU TIDAK DITEMUKAN -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">📚</div>
+      <h3>Buku tidak ditemukan</h3>
+      <p>
+        Coba gunakan kata kunci lain untuk menemukan
+        buku yang kamu cari.
+      </p>
+      <button class="reset-search" id="resetBtn" type="button">
+        Tampilkan Semua Buku
+      </button>
+    </div>
+
+  </main>
+
+  <footer class="footer-note">
+    TOKO ANGKASA BIRU · READ · DISCOVER · GROW
+  </footer>
+
+  <script>
+    /* ================= PENCARIAN BUKU ================= */
+
+    const searchInput = document.getElementById("searchInput");
+    const bookCards = document.querySelectorAll(".card-buku");
+    const visibleCount = document.getElementById("visibleCount");
+    const emptyState = document.getElementById("emptyState");
+    const clearBtn = document.getElementById("clearBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const bookGrid = document.getElementById("bookGrid");
+
+    function cariBuku() {
+      const keyword = searchInput.value.trim().toLocaleLowerCase("id");
+      let jumlahTampil = 0;
+
+      bookCards.forEach(card => {
+        const namaBuku = card.dataset.title.toLocaleLowerCase("id");
+        const cocok = namaBuku.includes(keyword);
+
+        card.style.display = cocok ? "flex" : "none";
+
+        if (cocok) jumlahTampil++;
+      });
+
+      visibleCount.textContent = jumlahTampil;
+      emptyState.style.display = jumlahTampil === 0 ? "block" : "none";
+      bookGrid.style.display = jumlahTampil === 0 ? "none" : "grid";
+      clearBtn.style.display = keyword ? "inline-block" : "none";
+    }
+
+    searchInput.addEventListener("input", cariBuku);
+
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      cariBuku();
+      searchInput.focus();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      cariBuku();
+      searchInput.focus();
+    });
+
+
+    /* ================= KERANJANG ================= */
+
+    function tambahKeranjang(judul, harga) {
+      const key = "pustakaUtamaCart";
+      let cart = [];
+
+      try {
+        const tersimpan = localStorage.getItem(key);
+        cart = tersimpan ? JSON.parse(tersimpan) : [];
+
+        if (!Array.isArray(cart)) cart = [];
+      } catch (error) {
+        cart = [];
+      }
+
+      const item = cart.find(buku => buku.title === judul);
+
+      if (item) {
+        item.qty = (Number(item.qty) || 0) + 1;
+        item.price = Number(item.price) || harga;
+      } else {
+        cart.push({
+          title: judul,
+          price: harga,
+          qty: 1
+        });
+      }
+
+      localStorage.setItem(key, JSON.stringify(cart));
+
+      // Jika berada di dalam iframe "konten",
+      // arahkan iframe menuju Keranjang.html.
+      if (window.parent !== window) {
+        const iframe = window.parent.document.querySelector(
+          'iframe[name="konten"]'
+        );
+
+        if (iframe) {
+          iframe.src = "Keranjang.html";
+          return;
+        }
+      }
+
+      // Jika halaman dibuka langsung.
+      window.location.href = "Keranjang.html";
+    }
+  </script>
+
+</body>
+</html>
